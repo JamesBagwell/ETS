@@ -6,7 +6,6 @@ import csv
 import os.path
 import Writer
 
-
 class EtsGui:
     def __init__(self):
 
