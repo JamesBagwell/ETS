@@ -25,8 +25,8 @@ class EtsGui:
         self.designer.set("Designer")
         self.tooltype = StringVar()
         self.tooltype.set("Tool Type")
-        self.ffavar = StringVar()
-        self.ffavar.set("Fax")
+        self.statusvar = StringVar()
+        self.statusvar.set("Order Status")
         self.repeatvar = StringVar()
         self.repeatvar.set("Repeat?")
         self.addtypevar = StringVar()
@@ -41,7 +41,7 @@ class EtsGui:
         self.time = 0
         self.tool_type = ""
         self.tool_designer = ""
-        self.fax_type = ""
+        self.order_status = ""
         self.repeat_type = ""
         self.wfcomments = ""
         self.addcomments = ""
@@ -68,13 +68,13 @@ class EtsGui:
         self.BUTTON_SIZE = 14
 
         #Adds WF data to WF CSV file
-        def add_wf_to_csv(ponumber,salesnumber,designer,date,time,fax,ordertype,repeat,comment,late):
+        def add_wf_to_csv(ponumber,salesnumber,designer,date,time,status,ordertype,repeat,comment,late):
             tempdict = {"Production Order Number": ponumber,
                         "Sales Number": salesnumber,
                         "Designer": designer,
                         "Date": date,
                         "Time Taken": time,
-                        "Fax": fax,
+                        "Order Status": status,
                         "Tool Type": ordertype,
                         "Repeat?": repeat,
                         "Late": late,
@@ -99,7 +99,7 @@ class EtsGui:
             tool = self.tooltype.get()
             date = self.dateinput.get()
             desginer = self.designer.get()
-            fax = self.ffavar.get()
+            status = self.statusvar.get()
             repeat = self.repeatvar.get()
             comment = self.worflowcomments.get("1.0", "end-1c")
             late = self.latevar.get()
@@ -110,7 +110,7 @@ class EtsGui:
             self.date = date
             self.tool_designer = desginer
             self.repeat_type = repeat
-            self.fax_type = fax
+            self.order_status = status
             self.wfcomments = str(comment)
             self.late = late
 
@@ -129,9 +129,9 @@ class EtsGui:
             elif self.tool_designer == "Designer":
                 tk.messagebox.showerror(title = "Missing Designer",message="Please enter designer name.")
                 self.userselection.focus()
-            elif self.fax_type == "Fax":
-                tk.messagebox.showerror(title="Missing Fax Information", message="Please state if FFA or Acknowledgement.")
-                self.ffa.focus()
+            elif self.order_status == "Order Status":
+                tk.messagebox.showerror(title="Missing Order Status", message="Please state current status of order.")
+                self.status_menu.focus()
             elif self.repeat_type == "Repeat?":
                 tk.messagebox.showerror(title="Missing Repeat Status", message="Please state if order was a repeat.")
                 self.repeat.focus()
@@ -146,7 +146,7 @@ class EtsGui:
                            ordertype=self.tool_type,
                            date=self.date,
                            designer=self.tool_designer,
-                           fax=self.fax_type,
+                           status=self.order_status,
                            repeat=self.repeat_type,
                             late=self.late,
                            comment=self.wfcomments,
@@ -155,7 +155,7 @@ class EtsGui:
 
         def clearalldata():
             self.tooltype.set("Tool Type")
-            self.ffavar.set("Fax")
+            self.statusvar.set("Fax")
             self.repeatvar.set("Repeat?")
             self.addtypevar.set("Task")
             self.latevar.set("Late order?")
@@ -219,8 +219,8 @@ class EtsGui:
         self.userselection.config(width=10,font=(self.FONT,self.DROPDOWN_SIZE))
         self.ordertype = tk.OptionMenu(self.root,self.tooltype,"2D","Form")
         self.ordertype.config(width = 15,font=(self.FONT,self.DROPDOWN_SIZE))
-        self.ffa = tk.OptionMenu(self.root, self.ffavar, "FFA ", "Acknowledgement")
-        self.ffa.config(font=(self.FONT,self.DROPDOWN_SIZE))
+        self.status_menu = tk.OptionMenu(self.root, self.statusvar, "FFA ", "Acknowledgement", "Design Request")
+        self.status_menu.config(font=(self.FONT,self.DROPDOWN_SIZE))
         self.repeat = tk.OptionMenu(self.root, self.repeatvar, "Yes", "No")
         self.repeat.config(font=(self.FONT,self.DROPDOWN_SIZE))
         self.late_order = tk.OptionMenu(self.root,self.latevar,"Late", "On Time")
@@ -242,7 +242,7 @@ class EtsGui:
         self.salesnumber.grid(row=3,column=1,sticky="nesw",padx=self.PAD,pady=self.PAD)
         self.workflowcommmentlabel.grid(row=4,column=0,sticky="nesw",padx=self.PAD,pady=self.PAD)
         self.worflowcomments.grid(row=4,column=1,sticky="nesw",padx=self.PAD,pady=self.PAD)
-        self.ffa.grid(row=2,column=2,sticky="nesw",padx=self.PAD,pady=self.PAD)
+        self.status_menu.grid(row=2,column=2,sticky="nesw",padx=self.PAD,pady=self.PAD)
         self.repeat.grid(row=4,column=2,sticky="nesw",padx=self.PAD,pady=self.PAD)
         self.ordertype.grid(row=3,column=2,sticky="nesw",padx=self.PAD,pady=self.PAD)
         self.datelabel.grid(row=0,column=4,sticky="e",padx=self.PAD,pady=self.PAD)
