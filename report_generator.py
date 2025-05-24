@@ -15,8 +15,7 @@ def get_dates_between(start_date, end_date):
 def get_all_files(dates):
     files = []
     for dates in dates:
-        if dates.weekday() <= 4:
-            files.append(f"{base}/Reports/CSV Files/ETS {dates} WF")
+        files.append(f"{base}/Reports/CSV Files/ETS {dates} WF")
     return files
 
 #GETS DATAFRAMES FOR ALL FILES IN FILE LIST AND CONCATS INTO SINGLE DATAFRAME
@@ -33,12 +32,17 @@ def convert_to_df(list_of_files):
             files_found += 1
         except FileNotFoundError:
             files_not_found += 1
-    grouped_data = pd.concat(df_list, axis=0, ignore_index=True) #CONCATS ALL DATAFRAMES FROM LIST INTO ONE
-    tk.messagebox.showinfo(title="File Summary",
-                           message=f"Report created for dates: {start_date} to {end_date}\n"
-                                   f"Usable files found: {files_found}\n"
-                                   f"Files missing: {files_not_found}")
-    return  grouped_data #RETURNS SINGLE DATAFRAME
+    try:
+        grouped_data = pd.concat(df_list, axis=0, ignore_index=True) #CONCATS ALL DATAFRAMES FROM LIST INTO ONE
+        tk.messagebox.showinfo(title="File Summary",
+                            message=f"Report created for dates: {start_date} to {end_date}\n"
+                                    f"Usable files found: {files_found}\n"
+                                    f"Files missing: {files_not_found}")
+        return grouped_data  # RETURNS SINGLE DATAFRAME
+    except ValueError: tk.messagebox.showerror(title="No Data Available",message="No data available for these dates")
+    return False
+
+
 
 #TAKES START DATE FROM WIDGET AND RETURNS IN CORRECT FORMAT
 def start_datetime():

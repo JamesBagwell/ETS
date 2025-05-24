@@ -45,8 +45,11 @@ def fill_multi_workbook(data,filepath):
                                index=False)
 
 def generate_multi_report(data,filepath,template):
-    create_new_multi_workbook(filepath,template)
-    fill_multi_workbook(data,filepath)
+        create_new_multi_workbook(filepath, template)
+        try:
+            fill_multi_workbook(data, filepath) #FILLS WORKBOOK IF DATA FOUND
+        except AttributeError:
+            os.remove(filepath) #DELETES THE WORKBOOK IF NO DATA FOUND
 
 
 
