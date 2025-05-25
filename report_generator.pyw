@@ -6,6 +6,7 @@ from tkcalendar import Calendar
 import Writer
 import os
 
+
 #GET DATES BETWEEEN TWO DATES INCLUDING START AND END DATES
 def get_dates_between(start_date, end_date):
     return [start_date + timedelta(days=i)
@@ -125,3 +126,4 @@ date2_label.grid(column=2,row=2,sticky="new")
 button1.grid(column=0,row=3,columnspan=3)
 
 root.mainloop()
+
